@@ -1,56 +1,95 @@
-import java.net.*;
 
- 
-import java.io.*;
+import java.io.BufferedInputStream;
 
-public class ServidorTCP {
+import java.io.File;
+import java.io.FileInputStream;
 
-	// método principal main de la clase
-	public static void main(String argv[]) 
-	{
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-		// declaramos un objeto ServerSocket para realizar la comunicación
-		ServerSocket socket;
-		// creamos una varible boolean con el valor a false
-		boolean fin = false;
+public class ServidorTCP extends Thread {
+	
+	
+    private final static String archivo1 = "";
+    private final static String archivo2 = "";
 
-		// Declaramos un bloque try y catch para controlar la ejecución del subprograma
+	public static void main(String[] args) {
+		
+		
+		ServerSocket servidor = null;
+		Socket sc = null;
+		
+
+		//puerto de nuestro servidor
+		final int PUERTO = 5000;
+		
+	
 		try {
+			//Creamos el socket del servidor
+			servidor = new ServerSocket(PUERTO);
+			System.out.println("Servidor iniciado");
 
-			// Instanciamos un ServerSocket con la dirección del destino y el
-			// puerto que vamos a utilizar para la comunicación
+			//Siempre estara escuchando peticiones
+			while (true) {
 
-			socket = new ServerSocket(6000);
+				//Espero a que un cliente se conecte
+				sc = servidor.accept();
+				System.out.println("Cliente conectado");
+				
+				File archivo1Envio = new File(archivo1);
+				File archivo2Envio = new File(archivo2);
+				
+				byte[] arreglo = new byte[(int)archivo1Envio.length()];
+				byte[] arreglo2 = new byte[(int)archivo2Envio.length()];
+				
+				FileInputStream fis= new FileInputStream(archivo1Envio);
+				BufferedInputStream bis = new BufferedInputStream(fis);
+				
+				FileInputStream fis2= new FileInputStream(archivo2Envio);
+				BufferedInputStream bis2 = new BufferedInputStream(fis2);
+				
+				
+				bis.read(arreglo, 0, arreglo.length);
+				bis2.read(arreglo2, 0, arreglo2.length);
+				
+				OutputStream os = sc.getOutputStream();
+				System.out.println("Sending " + archivo1 + "(" + arreglo.length + " bytes)");
+				System.out.println("Sending " + archivo2 + "(" + arreglo2.length + " bytes)");
+				os.write(arreglo, 0, arreglo.length);
+				os.write(arreglo2, 0, arreglo2.length);
+				
+				os.flush();
+				sc.close();	
 
-			// Creamos un socket_cli al que le pasamos el contenido del objeto socket después
-			// de ejecutar la función accept que nos permitirá aceptar conexiones de clientes
-			Socket socket_cli = socket.accept();
+			}
 
-			// Declaramos e instanciamos el objeto DataInputStream
-			// que nos valdrá para recibir datos del cliente
-
-			DataInputStream in =
-					new DataInputStream(socket_cli.getInputStream());
-
-			// Creamos un bucle do while en el que recogemos el mensaje
-			// que nos ha enviado el cliente y después lo mostramos
-			// por consola
-
-			do 
-			{
-				String mensaje ="";
-				mensaje = in.readUTF();
-				System.out.println(mensaje);
-			} while (1>0);
+		} catch (IOException ex) {
+			Logger.getLogger(ServidorTCP.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		// utilizamos el catch para capturar los errores que puedan surgir
-		catch (Exception e) {
 
-			// si existen errores los mostrará en la consola y después saldrá del
-			// programa
-			System.err.println(e.getMessage());
-			System.exit(1);
+	}
+	
+	
+	public void start()
+	{
+		for(int i=1; i<25;i++)
+		{
+			ServidorTCP s = new ServidorTCP();
+			Thread t = new Thread(s);
+			t.start();
+	
 		}
 	}
+	
+	@Override
+    public void run() {
+
+    }
+
+	
 
 }
