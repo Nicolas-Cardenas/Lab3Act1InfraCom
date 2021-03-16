@@ -1,67 +1,70 @@
 
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 
-public class ServidorTCP  {
+
+public class ServidorTCP extends Thread  {
+	
+
+    private ServerSocket servidor;
+    private Socket sc;
+    private FileInputStream fis;
+    private DataOutputStream dos;
+	private int PUERTO;
+	private String RUTA;
+	private Hash hash;
 
 
-	public static void main(String[] args) throws Exception {
-		
-		System.out.println("El archivo 1 corresponde a 100MB");
-		System.out.println("El archivo 2 corresponde a 250MB");
-		System.out.println("¿Cual desea enviar?");
+	public ServidorTCP(int Puerto, String rutaArchivo) {
 
-		Scanner myInput = new Scanner( System.in );
-		int i = myInput.nextInt();
-		myInput.close();
-		if(i==1)
-		{
-			System.out.println("El archivo # " + i+" de 100MB será enviado");
-		}
-		else if (i==2)
-		{
-			System.out.println("El archivo #" + i +" de 250MB será enviado");
-		}
-		else
-		{
-			throw new Exception("El numero de archivo debe ser 1 o 2");
-		}
-		
-		ServerSocket servidor = null;
-		Socket sc = null;	
+		hash = new Hash();
+		RUTA = rutaArchivo;
+		PUERTO = Puerto;
+
+	}
+
+
+	public void run()  {
+			
 		try {
 
-			servidor = new ServerSocket(9999);
-			System.out.println("Servidor iniciado");
+			int bytes = 0;
 
-			while (true) {
-				sc = servidor.accept();
-				System.out.println("Cliente conectado");
-				File archivo1Envio = new File("C:\\Users\\nicoc\\Documents\\test"+i+".txt");
-				byte[] arreglo = new byte[(int)archivo1Envio.length()];
-				FileInputStream fis= new FileInputStream(archivo1Envio);
-				BufferedInputStream bis = new BufferedInputStream(fis);
-				OutputStream os = sc.getOutputStream();
-				bis.read(arreglo, 0, arreglo.length);
-				os.write(arreglo, 0, arreglo.length);
+			servidor = new ServerSocket(PUERTO);
+			System.out.println("Servidor iniciado con el puerto:" + " " + PUERTO);
+			sc = servidor.accept();
+			
+			File archivo1Envio = new File(RUTA);
+			
 
-
-				os.flush();
-				sc.close();	
-
+			byte[] arreglo = new byte[4*1024];
+			fis= new FileInputStream(archivo1Envio);
+			dos = new DataOutputStream(sc.getOutputStream());
+			dos.writeLong(archivo1Envio.length());
+			
+			while((bytes=fis.read(arreglo))!=-1)
+			{
+				dos.write(arreglo, 0, bytes);
+				dos.flush();
 			}
+			
+			String hashF= hash.calcularHash(RUTA);
+			System.out.println(hashF);
+			sc.close();
 
 		} 
 		catch (IOException ex) {
 		}
 
-	}	
+	}
+
 
 }
