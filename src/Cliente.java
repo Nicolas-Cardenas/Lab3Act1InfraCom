@@ -11,10 +11,10 @@ public class Cliente {
 		myInput.close();
 		
 		
-		for(int i =0; i<o;i++)
+		for(int i =1; i<=o;i++)
 		{
 			int puerto = 5555+i;
-			ClienteTCP cliente = new ClienteTCP(puerto);
+			ClienteTCP cliente = new ClienteTCP(puerto, i);
 			cliente.start();
 		}
 		// TODO Auto-generated method stub

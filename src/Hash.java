@@ -26,7 +26,7 @@ public class Hash {
 		FileInputStream fis = new FileInputStream(File);
 
 		//Create byte array to read data in chunks
-		byte[] byteArray = new byte[1024];
+		byte[] byteArray = new byte[4*1024];
 		int bytesCount = 0; 
 
 		//Read file data and update in message digest

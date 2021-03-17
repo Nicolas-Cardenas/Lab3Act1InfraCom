@@ -17,8 +17,6 @@ public class Servidor {
 	
 		int i = myInput.nextInt();
 		
-		myInput.close();
-		
 		if(i==1)
 		{
 			System.out.println("El archivo # " + i+" de 100MB será enviado");
@@ -37,10 +35,10 @@ public class Servidor {
 		
 		
 		
-		for(int j =0; j<o;j++)
+		for(int j =1; j<=o;j++)
 		{
 			int puerto = 5555+j;
-			ServidorTCP conexion = new ServidorTCP(puerto, rutaArchivo);
+			ServidorTCP conexion = new ServidorTCP(puerto, rutaArchivo,i);
 			conexion.start();
 		}
 
