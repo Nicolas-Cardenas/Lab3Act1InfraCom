@@ -41,7 +41,7 @@ public class ClienteTCP extends Thread {
 	
 	public void run()  {
 		
-		try(Socket sock = new Socket("localhost", PUERTO)) 
+		try(Socket sock = new Socket("192.168.0.22", PUERTO)) 
 		{
 			dis = new DataInputStream(sock.getInputStream());
 			dos = new DataOutputStream(sock.getOutputStream());
