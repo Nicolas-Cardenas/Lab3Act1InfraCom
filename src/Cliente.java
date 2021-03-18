@@ -6,10 +6,9 @@ public class Cliente {
 		
 		System.out.println("¿Cuantos clientes desea crear?");
 		Scanner myInput = new Scanner( System.in );
-		int o = myInput.nextInt();
-		
+		int o = Integer.parseInt(myInput.nextLine());
+	
 		myInput.close();
-		
 		
 		for(int i =1; i<=o;i++)
 		{
