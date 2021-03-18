@@ -18,15 +18,10 @@ import java.time.format.DateTimeFormatter;
 public class ClienteTCP extends Thread {
 	
 	private int identificador;
-	
 	private int clientes;
-	
 	private DataInputStream dis;
-	
 	private DataOutputStream dos;
-	
 	private int PUERTO;
-	
 	private Hash hash;
 	
 
@@ -74,8 +69,9 @@ public class ClienteTCP extends Thread {
 			long finalTiempo = System.currentTimeMillis();
 			long tiempoTotal = finalTiempo - tiempoInicio;
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");  
-			LocalDateTime now = LocalDateTime.now();  
-			String nombre="Logs/Clientes/"+dtf.format(now)+"Cliente"+(identificador)+"-log.txt"; 
+			LocalDateTime n = LocalDateTime.now(); 
+			String conversionTiempo = dtf.format(n);
+			String nombre="Logs/Clientes/"+conversionTiempo+"LOGCliente"+(identificador)+".txt"; 
 			
 			int archivo=dis.read();
 			String nombreArchivo="";
@@ -123,14 +119,14 @@ public class ClienteTCP extends Thread {
 	
 	private void generarLog(String nombre, String nombreArchivo, long tamanioArchivo, int pPaquetes, long tiempoT, int idC, String hashF) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		PrintWriter writer = new PrintWriter(nombre, "UTF-8");
-		writer.println("Nombre del archivo: "+nombreArchivo);
-		writer.println("Tamaño del archivo: "+tamanioArchivo+"B");
-		writer.println("Id Cliente de transferencia: "+idC);
-		writer.println("Tiempo Transferencia Total: "+tiempoT+"milisegundos");
-		writer.println("Cantidad de Paquetes Transmitidos: "+pPaquetes);
-		writer.println("Hash que se recibió: "+ hashF);
-		writer.close();	
+		PrintWriter es = new PrintWriter(nombre, "UTF-8");
+		es.println("Nombre del archivo: "+nombreArchivo);
+		es.println("Tamaño del archivo: "+tamanioArchivo+"B");
+		es.println("Id Cliente de transferencia: "+idC);
+		es.println("Tiempo Transferencia Total: "+tiempoT+"milisegundos");
+		es.println("Cantidad de Paquetes Transmitidos: "+pPaquetes);
+		es.println("Hash que se recibió: "+ hashF);
+		es.close();	
 	}
 
 }

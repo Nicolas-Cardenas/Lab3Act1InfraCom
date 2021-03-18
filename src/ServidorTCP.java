@@ -82,8 +82,9 @@ public class ServidorTCP extends Thread  {
 			byte[] arreglo = new byte[4*1024];
 			long tiempoInicio = System.currentTimeMillis();
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");  
-			LocalDateTime now = LocalDateTime.now(); 
-			String nombreLog="Logs/Servidor/"+dtf.format(now)+"idServidor"+id+"-log.txt"; 
+			LocalDateTime n = LocalDateTime.now(); 
+			String conversionTiempo = dtf.format(n);
+			String nombreLog="Logs/Servidor/"+conversionTiempo+"Servidor:"+id+".txt"; 
 			
 			while((bytes=fis.read(arreglo))!=-1)
 			{
@@ -132,15 +133,15 @@ public class ServidorTCP extends Thread  {
 	
 	private void generarLog(String nombre, String nombreArchivo, long tamanioArchivo, int pPaquetes, long tiempo, int idC, int estado, String hashCalculado) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		PrintWriter writer = new PrintWriter(nombre, "UTF-8");
-		writer.println("Nombre del archivo: "+nombreArchivo);
-		writer.println("Tamaño del archivo: "+tamanioArchivo+"B");
-		writer.println("Id Cliente transferencia: "+idC);
-		writer.println("Tiempo de transferencia Total: "+tiempo+"milisegundos");
-		writer.println("Paquetes Transmitidos: "+pPaquetes);
-		writer.println("Estado de transferencia: "+estado);
-		writer.println("Hash que se envio: "+ hashCalculado);
-		writer.close();
+		PrintWriter es = new PrintWriter(nombre, "UTF-8");
+		es.println("Nombre del archivo: "+nombreArchivo);
+		es.println("Tamaño del archivo: "+tamanioArchivo+"B");
+		es.println("Id Cliente transferencia: "+idC);
+		es.println("Tiempo de transferencia Total: "+tiempo+"milisegundos");
+		es.println("Paquetes Transmitidos: "+pPaquetes);
+		es.println("Estado de transferencia: "+estado);
+		es.println("Hash que se envio: "+ hashCalculado);
+		es.close();
 		
 	}
 
