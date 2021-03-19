@@ -8,8 +8,10 @@ Jonatan Esmits
 Laboratorio 3 - Actividad 1
 
 
-Algunas referencias:
+Seguir las siguientes instrucciones (sin embargo esto se ve reflejado en el video):
 
-https://medium.com/@HeptaDecane/file-transfer-via-java-sockets-e8d4f30703a5
-https://stackoverflow.com/questions/32251895/java-file-transfer-file-to-server
-https://www.rgagnon.com/javadetails/java-0542.html
+1. Clonar el repositorio al servidor Ubuntu, dirigirse al mismo y ejecutar el comando java -cp bin Servidor (debe estar instalado java 15 en el servidor o el java del eclipse que se utilice)
+
+2. Despues de llenar los datos que piden en el servidor, ejecutar la clase Cliente y generar las mismas conexiones que en el servidor, esperar a que se termine el proceso y posteriormente revisar los logs y los archivos recibidos en la maquina cliente. 
+
+PD: El proceso es más detallado en el video. Gracias. 
